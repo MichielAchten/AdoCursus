@@ -7,5 +7,7 @@
                 Width="100" Margin="214, 59, 0, 0" Click="buttonBieren_Click"/>
         <Label x:Name="labelStatus" Content="" HorizontalAlignment="Left" VerticalAlignment="Top"
                Margin="230, 154, 0, 0"/>
+        <Button Name="buttonBonus" Content="Bonus op alle rekeningen" HorizontalAlignment="Left" VerticalAlignment="Top"
+                Margin="200 250 0 0" Click="buttonBonus_Click"/>
     </Grid>
 </Window>
