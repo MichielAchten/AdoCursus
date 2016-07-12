@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Data.Common;
+using AdoGemeenschap;
 
 namespace AdoWPF
 {
@@ -32,36 +33,51 @@ namespace AdoWPF
         {
             try
             {
-                var conString = ConfigurationManager.ConnectionStrings["Bieren"];
-                var factory = DbProviderFactories.GetFactory(conString.ProviderName);
-
-                using (var conBieren = factory.CreateConnection())
+                var manager = new BierenDbManager();
+                using (var conBieren = manager.GetConnection())
                 {
-                    conBieren.ConnectionString = conString.ConnectionString;
                     conBieren.Open();
                     labelStatus.Content = "Bieren geopend";
-                    
-                    //conBieren.ConnectionString = Application.Current.Properties["Bieren2"].ToString();
-                    //conBieren.Open();
-                    //labelStatus.Content = "Bieren geopend";
-
-                    //ConnectionStringSettings conString = ConfigurationManager.ConnectionStrings["Bieren"];
-                    //conBieren.ConnectionString = conString.ConnectionString;
-                    //conBieren.Open();
-                    //labelStatus.Content = "Bieren geopend";
                 }
-                
-                //using (var conBieren = new SqlConnection(@"server=.\sqlexpress;database=Bieren;integrated security=true"))
-                //{
-                //    //conBieren.ConnectionString = @"server=.\sqlexpress;database=Bieren;integrated security=true";
-                //    conBieren.Open();
-                //    labelStatus.Content = "Bieren geopend";
-                //}
             }
             catch (Exception ex)
             {
                 labelStatus.Content = ex.Message;
             }
+            
+            
+            //try
+            //{
+            //    var conString = ConfigurationManager.ConnectionStrings["Bieren"];
+            //    var factory = DbProviderFactories.GetFactory(conString.ProviderName);
+
+            //    using (var conBieren = factory.CreateConnection())
+            //    {
+            //        conBieren.ConnectionString = conString.ConnectionString;
+            //        conBieren.Open();
+            //        labelStatus.Content = "Bieren geopend";
+                    
+            //        //conBieren.ConnectionString = Application.Current.Properties["Bieren2"].ToString();
+            //        //conBieren.Open();
+            //        //labelStatus.Content = "Bieren geopend";
+
+            //        //ConnectionStringSettings conString = ConfigurationManager.ConnectionStrings["Bieren"];
+            //        //conBieren.ConnectionString = conString.ConnectionString;
+            //        //conBieren.Open();
+            //        //labelStatus.Content = "Bieren geopend";
+            //    }
+                
+            //    //using (var conBieren = new SqlConnection(@"server=.\sqlexpress;database=Bieren;integrated security=true"))
+            //    //{
+            //    //    //conBieren.ConnectionString = @"server=.\sqlexpress;database=Bieren;integrated security=true";
+            //    //    conBieren.Open();
+            //    //    labelStatus.Content = "Bieren geopend";
+            //    //}
+            //}
+            //catch (Exception ex)
+            //{
+            //    labelStatus.Content = ex.Message;
+            //}
         }
     }
 }
