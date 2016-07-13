@@ -4,10 +4,21 @@
         Title="MainWindow" Height="350" Width="525">
     <Grid>
         <Button x:Name="buttonBieren" Content="Bieren openen" HorizontalAlignment="Left" VerticalAlignment="Top"
-                Width="100" Margin="214, 59, 0, 0" Click="buttonBieren_Click"/>
+                Width="100" Margin="100, 59, 0, 0" Click="buttonBieren_Click"/>
         <Label x:Name="labelStatus" Content="" HorizontalAlignment="Left" VerticalAlignment="Top"
-               Margin="230, 154, 0, 0"/>
+               Margin="100, 154, 0, 0"/>
         <Button Name="buttonBonus" Content="Bonus op alle rekeningen" HorizontalAlignment="Left" VerticalAlignment="Top"
-                Margin="200 250 0 0" Click="buttonBonus_Click"/>
+                Margin="100 250 0 0" Click="buttonBonus_Click"/>
+        <StackPanel Orientation="Vertical" Margin="275, 60, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200">
+            <StackPanel Orientation="Horizontal" Margin="0 10 0 10">
+                <Label Content="RekeningNr.:" Width="80"/>
+                <TextBox x:Name="textBoxRekeningNr" Width="120"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0 10 0 10">
+                <Label Content="Te Storten:" Width="80"/>
+                <TextBox x:Name="textBoxTeStorten" Width="120"/>
+            </StackPanel>
+            <Button Name="buttonStorten" Content="Storten" Margin="0 10 0 10" Click="buttonStorten_Click"/>
+        </StackPanel>
     </Grid>
 </Window>
