@@ -9,7 +9,7 @@ namespace AdoGemeenschap
 {
     public class BrouwerManager
     {
-        public List<Brouwer> GetBrouwersBegingNaam(String beginNaam)
+        public List<Brouwer> GetBrouwersBeginNaam(String beginNaam)
         {
             List<Brouwer> brouwers = new List<Brouwer>();
             var manager = new BierenDbManager();
