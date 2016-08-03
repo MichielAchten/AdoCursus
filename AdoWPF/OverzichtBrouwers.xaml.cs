@@ -38,9 +38,37 @@ namespace AdoWPF
 
         }
 
+        //private void buttonZoeken_Click(object sender, RoutedEventArgs e)
+        //{
+        //    CollectionViewSource brouwerViewSource = ((CollectionViewSource)(this.FindResource("brouwerViewSource")));
+        //    var manager = new BrouwerManager();
+        //    brouwerViewSource.Source = manager.GetBrouwersBeginNaam(textBoxZoeken.Text);
+        //}
+
+        private void VulDeGrid()
+        {
+            CollectionViewSource brouwerViewSource = (CollectionViewSource)(this.FindResource("brouwerViewSource"));
+            var manager = new BrouwerManager();
+            brouwerViewSource.Source = manager.GetBrouwersBeginNaam(textBoxZoeken.Text);
+        }
+
+        private void Window_loaded(object sender, RoutedEventArgs e)
+        {
+            VulDeGrid();
+            textBoxZoeken.Focus();
+        }
+
         private void buttonZoeken_Click(object sender, RoutedEventArgs e)
         {
+            VulDeGrid();
+        }
 
+        private void textBoxZoeken_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                VulDeGrid();
+            }
         }
     }
 }
