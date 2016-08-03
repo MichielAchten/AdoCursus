@@ -44,6 +44,8 @@
     <Compile Include="Bank2DbManager.cs" />
     <Compile Include="BankDbManager.cs" />
     <Compile Include="BierenDbManager.cs" />
+    <Compile Include="Brouwer.cs" />
+    <Compile Include="BrouwerManager.cs" />
     <Compile Include="KlantenManager.cs" />
     <Compile Include="RekeningenManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
