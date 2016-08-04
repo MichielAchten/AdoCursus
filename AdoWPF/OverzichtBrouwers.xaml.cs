@@ -26,36 +26,42 @@ namespace AdoWPF
             InitializeComponent();
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            //System.Windows.Data.CollectionViewSource brouwerViewSource =
-            //    ((System.Windows.Data.CollectionViewSource)(this.FindResource("brouwerViewSource")));
+        //private void Window_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    //System.Windows.Data.CollectionViewSource brouwerViewSource =
+        //    //    ((System.Windows.Data.CollectionViewSource)(this.FindResource("brouwerViewSource")));
 
-            CollectionViewSource brouwerViewSource =
-                ((CollectionViewSource)(this.FindResource("brouwerViewSource")));
-            var manager = new BrouwerManager();
-            brouwerViewSource.Source = manager.GetBrouwersBeginNaam(textBoxZoeken.Text);
+        //    CollectionViewSource brouwerViewSource =
+        //        ((CollectionViewSource)(this.FindResource("brouwerViewSource")));
+        //    var manager = new BrouwerManager();
+        //    brouwerViewSource.Source = manager.GetBrouwersBeginNaam(textBoxZoeken.Text);
 
 
-        }
+        //}
 
-        private void buttonZoeken_Click(object sender, RoutedEventArgs e)
-        {
-            CollectionViewSource brouwerViewSource = ((CollectionViewSource)(this.FindResource("brouwerViewSource")));
-            var manager = new BrouwerManager();
-            brouwerViewSource.Source = manager.GetBrouwersBeginNaam(textBoxZoeken.Text);
-        }
+        //private void buttonZoeken_Click(object sender, RoutedEventArgs e)
+        //{
+        //    CollectionViewSource brouwerViewSource = ((CollectionViewSource)(this.FindResource("brouwerViewSource")));
+        //    var manager = new BrouwerManager();
+        //    brouwerViewSource.Source = manager.GetBrouwersBeginNaam(textBoxZoeken.Text);
+        //}
 
-        private void goToFirstButton_Click(object sender, RoutedEventArgs e)
-        {
+        //private void goToFirstButton_Click(object sender, RoutedEventArgs e)
+        //{
 
-        }
+        //}
 
         private void VulDeGrid()
         {
-            CollectionViewSource brouwerViewSource = (CollectionViewSource)(this.FindResource("brouwerViewSource"));
+            brouwerViewSource = (CollectionViewSource)(this.FindResource("brouwerViewSource"));
             var manager = new BrouwerManager();
-            brouwerViewSource.Source = manager.GetBrouwersBeginNaam(textBoxZoeken.Text);
+            int totalRowsCount;
+            List<Brouwer> brouwers = new List<Brouwer>();
+            brouwers = manager.GetBrouwersBeginNaam(textBoxZoeken.Text);
+            totalRowsCount = brouwers.Count();
+            labelTotalRowCount.Content = totalRowsCount;
+            brouwerViewSource.Source = brouwers;
+            goUpdate();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -85,17 +91,20 @@ namespace AdoWPF
 
         private void goToPreviousButton_Click(object sender, RoutedEventArgs e)
         {
-            //
+            brouwerViewSource.View.MoveCurrentToPrevious();
+            goUpdate();
         }
 
         private void goToNextButton_Click(object sender, RoutedEventArgs e)
         {
-            //
+            brouwerViewSource.View.MoveCurrentToNext();
+            goUpdate();
         }
 
         private void goToLastButton_Click(object sender, RoutedEventArgs e)
         {
-            //
+            brouwerViewSource.View.MoveCurrentToLast();
+            goUpdate();
         }
 
         private void goUpdate()
@@ -112,6 +121,21 @@ namespace AdoWPF
                     brouwerDataGrid.ScrollIntoView(brouwerDataGrid.SelectedItem);
                 }
             }
+        }
+
+        private void goButton_Click(object sender, RoutedEventArgs e)
+        {
+            int position;
+            int.TryParse(textBoxGo.Text, out position);
+            if (position > 0 && position <= brouwerDataGrid.Items.Count)
+            {
+                brouwerViewSource.View.MoveCurrentToPosition(position - 1);
+            }
+            else
+            {
+                MessageBox.Show("The input index is not valid.");
+            }
+            goUpdate();
         }
     }
 }
