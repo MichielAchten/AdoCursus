@@ -121,6 +121,16 @@ namespace AdoWPF
                     brouwerDataGrid.ScrollIntoView(brouwerDataGrid.SelectedItem);
                 }
             }
+            textBoxGo.Text = (brouwerViewSource.View.CurrentPosition + 1).ToString();
+
+            if (brouwerDataGrid.Items.Count != 0)
+            {
+                if (brouwerDataGrid.SelectedItem != null)
+                {
+                    brouwerDataGrid.ScrollIntoView(brouwerDataGrid.SelectedItem);
+                    listBoxBrouwers.ScrollIntoView(brouwerDataGrid.SelectedItem);
+                }
+            }
         }
 
         private void goButton_Click(object sender, RoutedEventArgs e)
@@ -135,6 +145,11 @@ namespace AdoWPF
             {
                 MessageBox.Show("The input index is not valid.");
             }
+            goUpdate();
+        }
+
+        private void brouwerDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
             goUpdate();
         }
     }

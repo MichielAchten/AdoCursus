@@ -62,14 +62,7 @@ namespace AdoGemeenschap
             }
             set
             {
-                if (value < 1000 || value > 9999)
-                {
-                    throw new Exception("Postcode moet tussen 1000 en 9999 liggen");
-                }
-                else
-                {
-                    postcodeValue = value;
-                }
+                postcodeValue = value;
             }
         }
         public String Gemeente
