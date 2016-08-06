@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using AdoGemeenschap;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 namespace AdoWPF
 {
@@ -21,6 +23,8 @@ namespace AdoWPF
     public partial class OverzichtBrouwers : Window
     {
         private CollectionViewSource brouwerViewSource;
+        public ObservableCollection<Brouwer> brouwersOb = new ObservableCollection<Brouwer>();
+
         public OverzichtBrouwers()
         {
             InitializeComponent();
@@ -55,13 +59,35 @@ namespace AdoWPF
         {
             brouwerViewSource = (CollectionViewSource)(this.FindResource("brouwerViewSource"));
             var manager = new BrouwerManager();
+            brouwersOb = manager.GetBrouwersBeginNaam(textBoxZoeken.Text);
             int totalRowsCount;
-            List<Brouwer> brouwers = new List<Brouwer>();
-            brouwers = manager.GetBrouwersBeginNaam(textBoxZoeken.Text);
-            totalRowsCount = brouwers.Count();
+            totalRowsCount = brouwersOb.Count();
             labelTotalRowCount.Content = totalRowsCount;
-            brouwerViewSource.Source = brouwers;
+            brouwerViewSource.Source = brouwersOb;
+            brouwersOb.CollectionChanged += this.OnCollectionChanged;
             goUpdate();
+        }
+
+        public List<Brouwer> OudeBrouwers = new List<Brouwer>();
+        public List<Brouwer> NieuweBrouwers = new List<Brouwer>();
+        public List<Brouwer> GewijzigdeBrouwers = new List<Brouwer>();
+
+        void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.OldItems != null)
+            {
+                foreach (Brouwer oudeBrouwer in e.OldItems)
+                {
+                    OudeBrouwers.Add(oudeBrouwer);
+                }
+            }
+            if (e.NewItems != null)
+            {
+                foreach (Brouwer nieuweBrouwer in e.NewItems)
+                {
+                    NieuweBrouwers.Add(nieuweBrouwer);
+                }
+            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -120,8 +146,8 @@ namespace AdoWPF
         {
             goToPreviousButton.IsEnabled = !(brouwerViewSource.View.CurrentPosition == 0);
             goToPreviousButton.IsEnabled = !(brouwerViewSource.View.CurrentPosition == 0);
-            goToNextButton.IsEnabled = !(brouwerViewSource.View.CurrentPosition == brouwerDataGrid.Items.Count - 1);
-            goToLastButton.IsEnabled = !(brouwerViewSource.View.CurrentPosition == brouwerDataGrid.Items.Count - 1);
+            goToNextButton.IsEnabled = !(brouwerViewSource.View.CurrentPosition == brouwerDataGrid.Items.Count - 2);
+            goToLastButton.IsEnabled = !(brouwerViewSource.View.CurrentPosition == brouwerDataGrid.Items.Count - 2);
 
             if (brouwerDataGrid.Items.Count !=0)
             {
@@ -215,6 +241,40 @@ namespace AdoWPF
             Brouwer b = br as Brouwer;
             bool result = (b.Postcode == Convert.ToInt16(comboBoxPostcode.SelectedValue));
             return result;
+        }
+
+        private void buttonSave_Click(object sender, RoutedEventArgs e)
+        {
+            brouwerDataGrid.CommitEdit(DataGridEditingUnit.Row, true);
+            var manager = new BrouwerManager();
+            if (OudeBrouwers.Count() != 0)
+            {
+                manager.SchrijfVerwijderingen(OudeBrouwers);
+                labelTotalRowCount.Content = (int)labelTotalRowCount.Content - OudeBrouwers.Count();
+            }
+            OudeBrouwers.Clear();
+            if (NieuweBrouwers.Count() != 0)
+            {
+                manager.SchrijfToevoegingen(NieuweBrouwers);
+                labelTotalRowCount.Content = (int)labelTotalRowCount.Content + NieuweBrouwers.Count();
+            }
+            NieuweBrouwers.Clear();
+
+            foreach (Brouwer b in brouwersOb)
+            {
+                if (b.Changed == true)
+                {
+                    GewijzigdeBrouwers.Add(b);
+                }
+                b.Changed = false;
+            }
+            if (GewijzigdeBrouwers.Count() != 0)
+            {
+                manager.SchrijfWijzigingen(GewijzigdeBrouwers);
+            }
+            GewijzigdeBrouwers.Clear();
+
+            VulDeGrid();
         }
     }
 }

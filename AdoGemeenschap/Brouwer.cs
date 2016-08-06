@@ -16,7 +16,10 @@ namespace AdoGemeenschap
             this.Postcode = postcode;
             this.Gemeente = gemeente;
             this.Omzet = omzet;
+            this.Changed = false;
         }
+
+        public Brouwer() { }
         
         private Int32 brouwerNrValue;
         private String brNaamValue;
@@ -24,6 +27,8 @@ namespace AdoGemeenschap
         private Int16 postcodeValue;
         private String gemeenteValue;
         private Int32? omzetValue;
+
+        public bool Changed { get; set; }
 
         public Int32 BrouwerNr
         {
@@ -41,6 +46,7 @@ namespace AdoGemeenschap
             set
             {
                 brNaamValue = value;
+                Changed = true;
             }
         }
         public String Adres
@@ -52,6 +58,7 @@ namespace AdoGemeenschap
             set
             {
                 adresValue = value;
+                Changed = true;
             }
         }
         public Int16 Postcode
@@ -63,6 +70,7 @@ namespace AdoGemeenschap
             set
             {
                 postcodeValue = value;
+                Changed = true;
             }
         }
         public String Gemeente
@@ -74,6 +82,7 @@ namespace AdoGemeenschap
             set
             {
                 gemeenteValue = value;
+                Changed = true;
             }
         }
         public Int32? Omzet
@@ -91,6 +100,7 @@ namespace AdoGemeenschap
                 else
                 {
                     omzetValue = value;
+                    Changed = true;
                 }
             }
         }

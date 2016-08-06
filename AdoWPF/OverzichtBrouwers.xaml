@@ -33,6 +33,14 @@
             <StackPanel HorizontalAlignment="Center" Margin="0" Width="550" Name="stackPanel1" Orientation="Horizontal">
                 <Button Content="Zoeken" HorizontalAlignment="Left" Name="buttonZoeken" Width="Auto" 
                         Background="BlanchedAlmond" FontWeight="Bold" Click="buttonZoeken_Click"/>
+                <Button Height="28" Name="buttonSave" Width="28" VerticalAlignment="Top" Click="buttonSave_Click">
+                    <Image Source="Images\SaveHL.bmp"></Image>
+                </Button>
+
+                <!--<Button Height="28" Name="buttonSave" Width="28">
+                    <Image Source=".\Images\SaveHL.bmp"></Image>
+                </Button>-->
+
                 <Label Content="Postcode filter:"></Label>
                 <ComboBox Name="comboBoxPostcode" SelectionChanged="comboBoxPostcode_SelectionChanged"></ComboBox>
                 <Button Content="|&lt;&lt;" Name="goToFirstButton" Width="Auto" FontWeight="Bold"
