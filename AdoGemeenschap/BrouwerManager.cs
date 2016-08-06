@@ -62,5 +62,29 @@ namespace AdoGemeenschap
             }
             return brouwers;
         }
+
+        public List<string> GetPostCodes()
+        {
+            List<string> postnummers = new List<string>();
+            var manager = new BierenDbManager();
+            using (var conBrouwer = manager.GetConnection())
+            {
+                using (var comPostCodes = conBrouwer.CreateCommand())
+                {
+                    comPostCodes.CommandType = CommandType.StoredProcedure;
+                    comPostCodes.CommandText = "PostCodes";
+                    conBrouwer.Open();
+                    using (var rdrPostCodes = comPostCodes.ExecuteReader())
+                    {
+                        Int32 postcodePos = rdrPostCodes.GetOrdinal("PostCode");
+                        while (rdrPostCodes.Read())
+                        {
+                            postnummers.Add(rdrPostCodes.GetInt16(postcodePos).ToString());
+                        }
+                    }
+                }
+            }
+            return postnummers;
+        }
     }
 }

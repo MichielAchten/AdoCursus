@@ -68,6 +68,15 @@ namespace AdoWPF
         {
             VulDeGrid();
             textBoxZoeken.Focus();
+
+            var manager = new BrouwerManager();
+            comboBoxPostcode.Items.Add("alles");
+            List<string> pc = manager.GetPostCodes();
+            foreach(var p in pc)
+            {
+                comboBoxPostcode.Items.Add(p);
+            }
+            comboBoxPostcode.SelectedIndex = 0;
         }
 
         private void buttonZoeken_Click(object sender, RoutedEventArgs e)
@@ -151,6 +160,61 @@ namespace AdoWPF
         private void brouwerDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             goUpdate();
+        }
+
+        private void brouwerDataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (CheckOpFouten())
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void brouwerDataGrid_PreviewMouseDown(object sender, MouseEventArgs e)
+        {
+            if (CheckOpFouten())
+            {
+                e.Handled = true;
+            }
+        }
+
+        bool CheckOpFouten()
+        {
+            bool foutGevonden = false;
+            foreach (var c in gridDetail.Children)
+            {
+                if (c is AdornerDecorator)
+                {
+                    if (Validation.GetHasError(((AdornerDecorator)c).Child))
+                    {
+                        foutGevonden = true;
+                    }
+                    else if (Validation.GetHasError((DependencyObject)c))
+                    {
+                        foutGevonden = true;
+                    }
+                }
+            }
+            return foutGevonden;
+        }
+
+        private void comboBoxPostcode_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (comboBoxPostcode.SelectedIndex == 0)
+            {
+                brouwerDataGrid.Items.Filter = null;
+            }
+            else
+            {
+                brouwerDataGrid.Items.Filter = new Predicate<object>(PostCodeFilter);
+            }
+        }
+
+        public bool PostCodeFilter(object br)
+        {
+            Brouwer b = br as Brouwer;
+            bool result = (b.Postcode == Convert.ToInt16(comboBoxPostcode.SelectedValue));
+            return result;
         }
     }
 }
