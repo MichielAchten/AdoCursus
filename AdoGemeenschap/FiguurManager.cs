@@ -65,7 +65,11 @@ namespace AdoGemeenschap
                         parNaam.Value = eenFiguur.Naam;
                         parVersie.Value = eenFiguur.Versie;
                         parID.Value = eenFiguur.ID;
-                        comUpdate.ExecuteNonQuery();
+
+                        if (comUpdate.ExecuteNonQuery() == 0)
+                        {
+                            throw new Exception("Iemand was je voor");
+                        }
                     }
                 }
             }
