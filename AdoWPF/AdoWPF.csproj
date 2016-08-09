@@ -153,6 +153,13 @@
   <ItemGroup>
     <Resource Include="Images\SaveHL.bmp" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="StoredProcedures\dbo.NieuweKlant.sql" />
+    <Content Include="StoredProcedures\dbo.PostCodes.sql" />
+    <Content Include="StoredProcedures\dbo.RekeningInfoRaadplegen.sql" />
+    <Content Include="StoredProcedures\dbo.SaldoRekeningRaadplegen.sql" />
+    <Content Include="StoredProcedures\dbo.Storten.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
